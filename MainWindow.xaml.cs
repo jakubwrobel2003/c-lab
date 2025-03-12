@@ -16,15 +16,12 @@ namespace WpfApp1
         // 📌 GRUPA A - RYSOWANIE LOSOWYCH LINII
         private void btnRysuj_Click(object sender, RoutedEventArgs e)
         {
+            try { 
             cvRysunek.Children.Clear();
-            if (!int.TryParse(txtLiczbaLinii.Text, out int liczbaLinii) || liczbaLinii <= 0)
-            {
-                MessageBox.Show("Podaj poprawną liczbę linii!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+             int ilosclini = Convert.ToInt32(txtLiczbaLinii.Text);
 
             Random rand = new Random();
-            for (int i = 0; i < liczbaLinii; i++)
+            for (int i = 0; i < ilosclini; i++)
             {
                 Line linia = new Line
                 {
@@ -37,6 +34,21 @@ namespace WpfApp1
                 };
                 cvRysunek.Children.Add(linia);
             }
+        }
+            catch (FormatException)
+            {
+                MessageBox.Show("Błąd! Wprowadź poprawne liczby zamiast liter.");
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Wprowadzone wartości są za duże lub za małe.");
+            }
+            catch (Exception ex) // Ogólny wyjątek na inne błędy
+            {
+                MessageBox.Show($"Wystąpił nieoczekiwany błąd: {ex.Message}");
+            }
+
+
         }
 
         // 📌 GRUPA B - RYSOWANIE PŁOTU
@@ -58,30 +70,60 @@ namespace WpfApp1
         // 📌 GRUPA C - RYSOWANIE CZŁOWIEKA
         private void RysujCzlowieka(object sender, RoutedEventArgs e)
         {
-            cvCzlowiek.Children.Clear();
+            cvCzlowiek.Children.Clear(); // Czyścimy Canvas przed ponownym rysowaniem
 
+            int srodekX = 200;  // Środek postaci w poziomie
+            int glowaY = 50;    // Pozycja głowy w pionie
+            int tulowY = glowaY + 50; // Pozycja tułowia
+            int tulowSzerokosc = 80;  // Szerokość tułowia
+            int tulowWysokosc = 120;  // Wysokość tułowia
+
+            // Głowa
             if (chkGlowa.IsChecked == true)
             {
                 Ellipse glowa = new Ellipse { Width = 50, Height = 50, Stroke = Brushes.Black, StrokeThickness = 2 };
                 cvCzlowiek.Children.Add(glowa);
-                Canvas.SetLeft(glowa, 275);
-                Canvas.SetTop(glowa, 20);
+                Canvas.SetLeft(glowa, srodekX - 25);
+                Canvas.SetTop(glowa, glowaY);
             }
 
+            // Tułów (Brzuch)
             if (chkTulow.IsChecked == true)
             {
-                RysujLinie(cvCzlowiek, 300, 70, 300, 170, Brushes.Black, 3);
+                Ellipse tulow = new Ellipse
+                {
+                    Width = tulowSzerokosc,
+                    Height = tulowWysokosc,
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 2
+                };
+                cvCzlowiek.Children.Add(tulow);
+                Canvas.SetLeft(tulow, srodekX - (tulowSzerokosc / 2));
+                Canvas.SetTop(tulow, tulowY);
             }
 
+            // Ręce uniesione w górę pod kątem
             if (chkRece.IsChecked == true)
             {
-                RysujLinie(cvCzlowiek, 250, 100, 350, 100, Brushes.Black, 3);
+                int rekaStartX = srodekX - (tulowSzerokosc / 2); // Start ramion na krawędzi tułowia
+                int rekaEndX_Left = rekaStartX - 50;  // Lewa ręka pod kątem
+                int rekaEndX_Right = srodekX + (tulowSzerokosc / 2) + 50; // Prawa ręka pod kątem
+                int rekaStartY = tulowY + (tulowWysokosc / 4); // Poziom ramion
+                int rekaEndY = rekaStartY - 60; // Uniesienie rąk w górę
+
+                RysujLinie(cvCzlowiek, rekaStartX, rekaStartY, rekaEndX_Left, rekaEndY, Brushes.Black, 3); // Lewa ręka
+                RysujLinie(cvCzlowiek, srodekX + (tulowSzerokosc / 2), rekaStartY, rekaEndX_Right, rekaEndY, Brushes.Black, 3); // Prawa ręka
             }
 
+            // Nogi rozstawione
             if (chkNogi.IsChecked == true)
             {
-                RysujLinie(cvCzlowiek, 300, 170, 270, 230, Brushes.Black, 3);
-                RysujLinie(cvCzlowiek, 300, 170, 330, 230, Brushes.Black, 3);
+                int nogiStartY = tulowY + tulowWysokosc;  // Punkt startowy nóg
+                int nogiEndY = nogiStartY + 50; // Końcowy punkt nóg
+                int nogiRozstaw = 20; // Rozstaw nóg
+
+                RysujLinie(cvCzlowiek, srodekX, nogiStartY, srodekX - nogiRozstaw, nogiEndY, Brushes.Black, 3); // Lewa noga
+                RysujLinie(cvCzlowiek, srodekX, nogiStartY, srodekX + nogiRozstaw, nogiEndY, Brushes.Black, 3); // Prawa noga
             }
         }
 
