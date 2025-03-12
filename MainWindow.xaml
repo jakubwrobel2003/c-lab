@@ -1,14 +1,99 @@
-﻿<Window x:Class="Rysowaniess4.MainWindow"
+﻿<Window x:Class="WpfApp1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Rysowaniess4"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Rysowanie w Canvas" Height="600" Width="800">
     <Grid>
-        <Button x:Name="btnRysuj" Content="Rysuj" HorizontalAlignment="Left" Margin="22,20,0,0" VerticalAlignment="Top" Click="btnRysuj_Click"/>
-        <Canvas x:Name="cvRysunek" Margin="126,48,78,98" Background="#FFF7D8D8" Height="300" IsEnabled="False" Width="300"/>
+        <TabControl>
+            <!-- Grupa A - Losowe Linie -->
+            <TabItem Header="Losowe Linie">
+                <StackPanel Margin="10">
+                    <TextBox x:Name="txtLiczbaLinii" Width="100" Text="10"/>
+                    <Button Content="Rysuj Linie" Click="btnRysuj_Click" Width="100"/>
+                    <Canvas x:Name="cvRysunek" Width="600" Height="400" Background="White"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Grupa B - Płot -->
+            <TabItem Header="Płot">
+                <StackPanel Margin="10">
+                    <Button Content="Narysuj Płot" Click="btnNarysujPlot_Click" Width="120"/>
+                    <Canvas x:Name="cvPlot" Width="600" Height="400" Background="White"/>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Grupa C - Człowiek -->
+            <TabItem Header="Człowiek">
+                <StackPanel Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="chkGlowa" Content="Głowa" Checked="RysujCzlowieka" Unchecked="RysujCzlowieka"/>
+                        <CheckBox x:Name="chkTulow" Content="Tułów" Checked="RysujCzlowieka" Unchecked="RysujCzlowieka"/>
+                        <CheckBox x:Name="chkRece" Content="Ręce" Checked="RysujCzlowieka" Unchecked="RysujCzlowieka"/>
+                        <CheckBox x:Name="chkNogi" Content="Nogi" Checked="RysujCzlowieka" Unchecked="RysujCzlowieka"/>
+                    </StackPanel>
+                    <Canvas x:Name="cvCzlowiek" Width="600" Height="400" Background="White"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="BMI">
+                <StackPanel Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="txtwaga" HorizontalAlignment="Left" Margin="10,69,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" Background="#FFF12828"/>
+                        <TextBox x:Name="txtWzrost" HorizontalAlignment="Left" Margin="10,134,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" Background="#FFF12828"/>
+                        <Button Content="OBLICZ BMI" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Height="37" Width="120" Click="Button_Click" />
+                        <Label Content="wzrost&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top"/>
+                        <Label Content="waga&#xD;&#xA;" HorizontalAlignment="Left" Margin="26,27,0,0" VerticalAlignment="Top"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Czołg">
+                <Grid Margin="10">
+                    <!-- Definicja kolumn -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <!-- Lewa kolumna na kontrolki -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- Prawa kolumna na Canvas -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Lewa kolumna: Opcje rysowania -->
+                    <StackPanel Grid.Column="0" Margin="10">
+                        <Label Content="Wybierz kształt:"/>
+                        <RadioButton x:Name="radioProstokąt" Content="Prostokąt" IsChecked="True"/>
+                        <RadioButton x:Name="radioelipsa" Content="Elipsa"/>
+
+                        <Label Content="Położenie X:"/>
+                        <TextBox x:Name="txtPolorzenieX" Width="100" Text="0"/>
+
+                        <Label Content="Położenie Y:"/>
+                        <TextBox x:Name="txtPolorzenieY" Width="100" Text="0"/>
+
+                        <Label Content="Długość:"/>
+                        <TextBox x:Name="txtDlugosc" Width="100" Text="50"/>
+
+                        <Label Content="Szerokość:"/>
+                        <TextBox x:Name="txtSzerokosc" Width="100" Text="50"/>
+
+                        <Button x:Name="btnRysujElipseOrProstokat" Content="Rysuj Kształt" Click="Rysuj" Width="120" Margin="5"/>
+                        <Button x:Name="btnTANK" Content="Rysuj Czołg" Click="RysujTANK" Width="120" Margin="5"/>
+                    </StackPanel>
+
+                    <!-- Prawa kolumna: Canvas do rysowania -->
+                    <Canvas x:Name="cvRysunke" Background="#FFF9D3D3" Grid.Column="1" Margin="10,78,6,68" RenderTransformOrigin="0.5,0.5">
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-0.349"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
