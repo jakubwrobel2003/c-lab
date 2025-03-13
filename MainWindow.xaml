@@ -47,7 +47,14 @@
 
                 </StackPanel>
             </TabItem>
+            <TabItem Header="KOLKO ">
+                <StackPanel Margin="10">
+                    
+                    <Canvas x:Name="cvRys" Height="230" Background="#FFF79393"/>
+                    <Button x:Name="btnzabaluj" Content="Button" Click="zamalujkulko"/>
 
+                </StackPanel>
+            </TabItem>
             <TabItem Header="Czołg">
                 <Grid Margin="10">
                     <!-- Definicja kolumn -->
@@ -94,6 +101,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
+        
     </Grid>
 </Window>

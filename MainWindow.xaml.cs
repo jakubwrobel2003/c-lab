@@ -298,5 +298,26 @@ namespace WpfApp1
 
         }
 
+        private void zamalujkulko(object sender, RoutedEventArgs e)
+        {
+            Ellipse elipsa = new Ellipse
+            {
+                Width = 100,  // Szerokość elipsy
+                Height = 100, // Wysokość elipsy
+                Fill = new SolidColorBrush(Colors.Red), // Kolor wypełnienia
+                Stroke = new SolidColorBrush(Colors.Black), // Kolor obramowania
+                StrokeThickness = 2 // Grubość obramowania
+            };
+
+            // Ustawienie pozycji elipsy w kontrolce Canvas (jeśli istnieje)
+            Canvas.SetLeft(elipsa, 50);
+            Canvas.SetTop(elipsa, 50);
+
+            // Dodanie elipsy do kontenera (np. Canvas)
+           
+                cvRys.Children.Add(elipsa);
+           
+           
+        }
     }
 }
